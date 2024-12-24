@@ -7,12 +7,20 @@ import path from "path";
 import log from "consola";
 import chalk from "chalk";
 
+import "#/types/env.js";
+
+import fastifyjwt from "@fastify/jwt";
+
 const app = fastify();
 
 app.register(cors, { origin: "*" });
 app.register(autoload, {
     dir: path.join(import.meta.dirname, "routes"),
     routeParams: true
+});
+
+app.register(fastifyjwt, {
+    secret: process.env.JWT_SECRET
 });
 
 app.addHook("onRoute", ({ method, path }) => {
