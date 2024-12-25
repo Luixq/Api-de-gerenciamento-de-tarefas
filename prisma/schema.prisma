@@ -27,8 +27,13 @@ model tasks {
   id          String   @id @default(cuid())
   title       String
   description String
-  status      String
+  status      STATUS   @default(PENDING)
   createdAt   DateTime @default(now())
   user        users    @relation(fields: [userId], references: [id])
   userId      String
+}
+
+enum STATUS {
+  PENDING
+  COMPLETED
 }

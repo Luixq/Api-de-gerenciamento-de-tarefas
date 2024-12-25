@@ -1,6 +1,6 @@
 # API de Gerenciamento de Tarefas
 
-## 1. Usuários
+## 1. Usuários - FINALIZADO
 - Cadastro
   - Endpoint: `POST /users`
   - Campos: Nome, E-mail, Senha
@@ -11,7 +11,7 @@
   - Endpoint: `GET /users/@me`
   - Requer autenticação
 
-## 2. Tarefas
+## 2. Tarefas - FINALIZADO
 - Criar tarefa
   - Endpoint: `POST /tasks`
   - Campos: Título, Descrição, Status (pendente/concluída)
@@ -27,7 +27,7 @@
   - Endpoint: `DELETE /tasks/:id`
   - Requer autenticação
 
-## 3. Banco de Dados
+## 3. Banco de Dados - FINALIZADO
 - Tabelas:
   - `users`
     - Campos: id, name, email, password_hash, created_at

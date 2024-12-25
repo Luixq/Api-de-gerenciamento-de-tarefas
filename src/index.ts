@@ -10,6 +10,14 @@ import chalk from "chalk";
 import "#/types/env.js";
 
 import fastifyjwt from "@fastify/jwt";
+import { ZodError } from "zod";
+import { User } from "./types/user.js";
+
+declare module "@fastify/jwt" {
+    interface FastifyJWT {
+        user: User
+    }
+}
 
 const app = fastify();
 
@@ -26,12 +34,21 @@ app.register(fastifyjwt, {
 app.addHook("onRoute", ({ method, path }) => {
     if (method == "HEAD" || method == "OPTIONS") return;
     log.success(`${chalk.magenta(method)} ${chalk.green(path)}`);
-})
+});
 
-app.listen({ 
+app.setErrorHandler((err, req, reply) => {
+    if (err instanceof ZodError) {
+        return reply.code(400).send({ message: "Bad Request" });
+    };
+
+    return reply.code(500).send({ message: err.cause ? err.message : "Internal Server Error" });
+});
+
+
+app.listen({
     port: 8080,
     host: "0.0.0.0"
- }).then(() => {
+}).then(() => {
     log.success(`Server listening at ${chalk.green("http://localhost:8080")}`);
 }).catch((err) => {
     log.error(err);
