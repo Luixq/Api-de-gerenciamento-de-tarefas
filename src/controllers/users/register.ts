@@ -1,7 +1,7 @@
 import { FastifyReply, FastifyRequest } from "fastify";
 
 import bcrypt from "bcrypt";
-import { prisma } from "#/functions/database.js";
+import { prisma } from "#functions/database.js";
 import { z } from "zod";
 
 export const registerBodySchema = z.object({

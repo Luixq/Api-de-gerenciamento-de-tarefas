@@ -4,19 +4,31 @@
         "skipLibCheck": true,
         "resolveJsonModule": true,
         "strict": true,
-
         "target": "ESNext",
         "module": "nodenext",
         "moduleResolution": "nodenext",
-
         "rootDir": "./src",
         "outDir": "./build",
-
         "baseUrl": "./src",
         "paths": {
-            "#/*": ["*"]
+            "#/*": [
+                "*"
+            ],
+            "#controllers/*": [
+                "./controllers/*"
+            ],
+            "#functions/*": [
+                "./functions/*"
+            ],
+            "#services/*": [
+                "./services/*"
+            ],
         }
     },
-    "include": ["src"],
-    "exclude": ["node_modules"]
+    "include": [
+        "src/**/*"
+    ],
+    "exclude": [
+        "node_modules"
+    ]
 }

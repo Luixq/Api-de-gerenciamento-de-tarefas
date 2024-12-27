@@ -1,9 +1,9 @@
-import { createTaskController, createTaskSchema } from "#/controllers/tasks/create.js";
-import { deleteTaskController, deleteTaskParamsSchema } from "#/controllers/tasks/delete.js";
-import { listTaskController, ListTaskQueryParamsSchema } from "#/controllers/tasks/list.js";
-import { UpdateTaskBodySchema, updateTaskController, UpdateTaskParamsSchema } from "#/controllers/tasks/update.js";
-import { Middleware, MiddlewareSchema } from "#/services/middleware.js";
-import { DefineRoutes } from "functions/utils.js";
+import { createTaskController, createTaskSchema } from "#controllers/tasks/create.js";
+import { deleteTaskController, deleteTaskParamsSchema } from "#controllers/tasks/delete.js";
+import { listTaskController, ListTaskQueryParamsSchema } from "#controllers/tasks/list.js";
+import { UpdateTaskBodySchema, updateTaskController, UpdateTaskParamsSchema } from "#controllers/tasks/update.js";
+import { Middleware, MiddlewareSchema } from "#services/middleware.js";
+import { DefineRoutes } from "#functions/utils.js";
 
 export default DefineRoutes(app => {
     app.post("/", {

@@ -7,7 +7,7 @@ import path from "path";
 import log from "consola";
 import chalk from "chalk";
 
-import "#/types/env.js";
+// import "#/types/env.js";
 
 import fastifyjwt from "@fastify/jwt";
 import { User } from "./types/user.js";

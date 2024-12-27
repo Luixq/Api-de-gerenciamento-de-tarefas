@@ -9,6 +9,9 @@
     "start": "node --env-file=.env build/index.js",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
+  "engines": {
+    "node": ">=20"
+  },
   "devDependencies": {
     "@types/bcrypt": "^5.0.2",
     "@types/node": "^22.9.0",
@@ -33,6 +36,18 @@
   "imports": {
     "#/*": [
       "./build/*"
+    ],
+    "#controllers/*": [
+      "./build/controllers/*"
+    ],
+    "#base": [
+      "./build/index.js"
+    ],
+    "#services/*": [
+      "./build/services/*"
+    ],
+    "#functions/*": [
+      "./build/functions/*"
     ]
   }
 }

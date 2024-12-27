@@ -1,4 +1,4 @@
-import { prisma } from "#/functions/database.js";
+import { prisma } from "#functions/database.js";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
