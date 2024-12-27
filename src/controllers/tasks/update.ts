@@ -2,19 +2,21 @@ import { prisma } from "#/functions/database.js";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
-const paramsModel = z.object({
+export const UpdateTaskParamsSchema = z.object({
     id: z.string()
 })
+type UpdateTaskParams = z.infer<typeof UpdateTaskParamsSchema>;
 
-const bodyModel = z.object({
+export const UpdateTaskBodySchema = z.object({
     title: z.string(),
     description: z.string(),
     status: z.enum(["PENDING", "COMPLETED"])
 })
+type UpdateTaskBody = z.infer<typeof UpdateTaskBodySchema>;
 
-async function controller(req: FastifyRequest, res: FastifyReply) {
-    const { id } = await paramsModel.parseAsync(req.params);
-    const { title, description, status } = await bodyModel.parseAsync(req.body);
+async function controller(req: FastifyRequest<{ Body: UpdateTaskBody, Params: UpdateTaskParams } >, res: FastifyReply) {
+    const { id } = req.params;
+    const { title, description, status } = req.body;
 
     if (!title || !description || !status) throw new Error("All fields are required", {
         cause: "Missing fields"

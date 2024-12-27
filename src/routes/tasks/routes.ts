@@ -1,15 +1,56 @@
-import { createTaskController } from "#/controllers/tasks/create.js";
-import { deleteTaskController } from "#/controllers/tasks/delete.js";
-import { listTaskController } from "#/controllers/tasks/list.js";
-import { updateTaskController } from "#/controllers/tasks/update.js";
-import { Middleware } from "#/services/middleware.js";
+import { createTaskController, createTaskSchema } from "#/controllers/tasks/create.js";
+import { deleteTaskController, deleteTaskParamsSchema } from "#/controllers/tasks/delete.js";
+import { listTaskController, ListTaskQueryParamsSchema } from "#/controllers/tasks/list.js";
+import { UpdateTaskBodySchema, updateTaskController, UpdateTaskParamsSchema } from "#/controllers/tasks/update.js";
+import { Middleware, MiddlewareSchema } from "#/services/middleware.js";
 import { DefineRoutes } from "functions/utils.js";
 
 export default DefineRoutes(app => {
-    app.post("/", { preHandler: Middleware }, createTaskController);
+    app.post("/", {
+        schema: {
+            tags: ["Tasks"],
+            body: createTaskSchema,
+            headers: MiddlewareSchema,
+            security: [{ Bearer: [] }]
+        },
+        preHandler: async (req, reply) => {
+            await Middleware(req, reply);
+        },
+    }, createTaskController);
 
-    app.get("/", { preHandler: Middleware }, listTaskController);
+    app.get("/", {
+        schema: {
+            tags: ["Tasks"],
+            querystring: ListTaskQueryParamsSchema,
+            headers: MiddlewareSchema,
+            security: [{ Bearer: [] }]
+        },
+        preHandler: async (req, reply) => {
+            await Middleware(req, reply);
+        }
+    }, listTaskController);
 
-    app.put("/:id", { preHandler: Middleware }, updateTaskController);
-    app.delete("/:id", { preHandler: Middleware }, deleteTaskController);
+    app.put("/:id", {
+        schema: {
+            tags: ["Tasks"],
+            params: UpdateTaskParamsSchema,
+            body: UpdateTaskBodySchema,
+            headers: MiddlewareSchema,
+            security: [{ Bearer: [] }]
+        },
+        preHandler: async (req, reply) => {
+            await Middleware(req, reply);
+        }
+    }, updateTaskController);
+    app.delete("/:id", {
+        schema: {
+            tags: ["Tasks"],
+            params: deleteTaskParamsSchema,
+            headers: MiddlewareSchema,
+            security: [{ Bearer: [] }]
+        },
+        preHandler: async (req, reply) => {
+            await Middleware(req, reply);
+        }
+    }, deleteTaskController);
 })

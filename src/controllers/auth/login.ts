@@ -4,15 +4,16 @@ import { z } from "zod";
 
 import bcrypt from "bcrypt";
 
-const LoginModel = z.object({
+export const LoginBodySchema = z.object({
     email: z.string().email(),
     password: z.string().min(8),
 })
+type LoginBody = z.infer<typeof LoginBodySchema>;
 
 // Retorno: Token JWT
 // Campos: E-mail, Senha
-async function controller(req: FastifyRequest, res: FastifyReply) {
-    const bodyParsed = await LoginModel.parseAsync(req.body);
+async function controller(req: FastifyRequest<{ Body: LoginBody } >, res: FastifyReply) {
+    const bodyParsed = req.body;
 
     const findUser = await prisma.users.findUnique({
         where: {

@@ -10,8 +10,12 @@ import chalk from "chalk";
 import "#/types/env.js";
 
 import fastifyjwt from "@fastify/jwt";
-import { ZodError } from "zod";
 import { User } from "./types/user.js";
+
+import { hasZodFastifySchemaValidationErrors, jsonSchemaTransform, serializerCompiler, validatorCompiler, ZodTypeProvider } from "fastify-type-provider-zod";
+
+import { fastifySwagger } from "@fastify/swagger"
+import { fastifySwaggerUi } from "@fastify/swagger-ui"
 
 declare module "@fastify/jwt" {
     interface FastifyJWT {
@@ -19,7 +23,33 @@ declare module "@fastify/jwt" {
     }
 }
 
-const app = fastify();
+const app = fastify().withTypeProvider<ZodTypeProvider>();
+
+app.setValidatorCompiler(validatorCompiler);
+app.setSerializerCompiler(serializerCompiler);
+
+app.register(fastifySwagger, {
+    openapi: {
+        info: {
+            title: "API de gerenciamento de tarefas",
+            version: "1.0.0"
+        },
+        components: {
+            securitySchemes: {
+                Bearer: {
+                    type: "http",
+                    scheme: "bearer",
+                    bearerFormat: "JWT"
+                }
+            }
+        }
+    },
+    transform: jsonSchemaTransform
+});
+
+app.register(fastifySwaggerUi, {
+    routePrefix: "/docs"
+});
 
 app.register(cors, { origin: "*" });
 app.register(autoload, {
@@ -37,13 +67,22 @@ app.addHook("onRoute", ({ method, path }) => {
 });
 
 app.setErrorHandler((err, req, reply) => {
-    if (err instanceof ZodError) {
-        return reply.code(400).send({ message: "Bad Request" });
-    };
+    // log.error(err);
+    if (hasZodFastifySchemaValidationErrors(err)) {
+        return reply.code(400).send({
+            error: 'Response Validation Error',
+            message: "Request doesn't match the schema",
+            statusCode: 400,
+            details: {
+                issues: err.validation,
+                method: req.method,
+                url: req.url,
+            },
+        })
+    }
 
     return reply.code(500).send({ message: err.cause ? err.message : "Internal Server Error" });
 });
-
 
 app.listen({
     port: 8080,

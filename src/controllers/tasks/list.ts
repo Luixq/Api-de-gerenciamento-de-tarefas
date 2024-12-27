@@ -2,15 +2,17 @@ import { prisma } from "#/functions/database.js";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
-const queryParamsModel = z.object({
+export const ListTaskQueryParamsSchema = z.object({
     status: z.enum(["PENDING", "COMPLETED"]).optional(),
     page: z.number({ coerce: true }).default(1),
     limit: z.number({ coerce: true }).default(10),
 })
 
+type ListTaskQueryParams = z.infer<typeof ListTaskQueryParamsSchema>
+
 // Parâmetros: Filtro por status, Paginação
-async function controller(req: FastifyRequest, res: FastifyReply) {
-    const queryParsed = await queryParamsModel.parseAsync(req.query);
+async function controller(req: FastifyRequest<{ Querystring: ListTaskQueryParams } >, res: FastifyReply) {
+    const queryParsed = req.query;
     const userData = req.user;
     
     const whereObject: any = {

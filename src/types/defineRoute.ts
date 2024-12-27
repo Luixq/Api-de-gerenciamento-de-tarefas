@@ -1,3 +1,3 @@
-import { FastifyInstance } from "fastify";
+import { FastifyTypedInstance } from "./env.js";
 
-export type DefineRoutesHandler = (app: FastifyInstance) => any;
+export type DefineRoutesHandler = (app: FastifyTypedInstance) => any;

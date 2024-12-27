@@ -2,15 +2,16 @@ import { prisma } from "#/functions/database.js";
 import { FastifyReply, FastifyRequest } from "fastify";
 import { z } from "zod";
 
-const createTaskModel = z.object({
+export const createTaskSchema = z.object({
     title: z.string(),
     description: z.string(),
     status: z.enum(["PENDING", "COMPLETED"]),
 });
+type CreateTaskBody = z.infer<typeof createTaskSchema>;
 
 //Campos: Título, Descrição, Status (PENDING/COMPLETED)
-async function controller(req: FastifyRequest, res: FastifyReply) {
-    const bodyParsed = await createTaskModel.parseAsync(req.body);
+async function controller(req: FastifyRequest<{ Body: CreateTaskBody }>, res: FastifyReply) {
+    const bodyParsed = req.body;
     const userData = req.user;
 
     const createTask = await prisma.tasks.create({

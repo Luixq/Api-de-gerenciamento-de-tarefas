@@ -1,3 +1,5 @@
+import { FastifyBaseLogger, FastifyInstance, RawReplyDefaultExpression, RawRequestDefaultExpression, RawServerDefault } from 'fastify';
+import { ZodTypeProvider } from 'fastify-type-provider-zod';
 import { z } from 'zod';
 
 export const Env = z.object({
@@ -14,3 +16,11 @@ declare global {
         interface ProcessEnv extends Env {}
     }
 }
+
+export type FastifyTypedInstance = FastifyInstance<
+  RawServerDefault,
+  RawRequestDefaultExpression,
+  RawReplyDefaultExpression,
+  FastifyBaseLogger,
+  ZodTypeProvider
+>
