@@ -41,3 +41,13 @@
 
 ## 5. Extensões
 - Documentação com Swagger
+
+## Instruções de instalação
+
+Mude o .env.example para .env e configure
+
+```bash
+docker compose up --detach
+yarn
+yarn dev
+```
