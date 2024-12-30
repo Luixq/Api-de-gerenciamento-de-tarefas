@@ -35,12 +35,9 @@
     - Campos: id, title, description, status, user_id, created_at
 
 ## 4. Tecnologias
-- Backend: Fastify ou Express.js
-- Banco de Dados: PostgreSQL (com Prisma ou Sequelize)
+- Backend: Fastify
+- Banco de Dados: PostgreSQL (com Prisma)
 - Autenticação: JWT
-- Testes: Jest
 
 ## 5. Extensões
-- Logs de atividades (auditoria)
-- Notificações por e-mail (ao criar ou concluir uma tarefa)
 - Documentação com Swagger
