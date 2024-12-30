@@ -1,5 +1,5 @@
 {
-  "name": "login-backend",
+  "name": "gerenciamento-de-tarefas",
   "version": "1.0.0",
   "main": "build/index.js",
   "type": "module",
